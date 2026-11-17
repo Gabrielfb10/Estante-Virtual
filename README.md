@@ -41,6 +41,12 @@ O projeto busca aplicar os principais conceitos de Programação Orientada a Obj
 - **`User`**: representa os usuários e suas informações.
 - **`UserMedia`**: gerencia o relacionamento entre usuários e mídias, incluindo progresso, avaliação e status.
 
+### Diagrama de classes UML
+
+O diagrama apresenta as classes principais, seus relacionamentos e as estratégias de cálculo de XP.
+
+![Diagrama de classes UML da Estante Virtual](docs/uml/diagrama-de-classes.png)
+
 ### Padrão de projeto — Strategy
 
 Para o cálculo de XP, será utilizado o padrão **Strategy**, por meio da interface `XPCalculator` e de duas implementações:
