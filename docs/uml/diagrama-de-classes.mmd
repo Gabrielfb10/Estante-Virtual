@@ -1,0 +1,103 @@
+classDiagram
+    direction TB
+
+    class User {
+        -Long id
+        -String name
+        -int xp
+        -List~UserMedia~ shelf
+        +addXp(int amount) void
+        +getLevel() int
+        +getShelf() List~UserMedia~
+        +addToShelf(UserMedia userMedia) void
+        +removeFromShelf(UserMedia userMedia) void
+    }
+
+    class UserMedia {
+        -Long id
+        -User user
+        -Media media
+        -int progress
+        -int rewardedProgress
+        -Double rating
+        -ReadingStatus status
+        +UserMedia(User user, Media media)
+        +getUser() User
+        +getMedia() Media
+        +getProgress() int
+        +getRewardedProgress() int
+        +updateProgress(int progress) void
+        +markProgressRewarded() void
+        +setRating(double rating) void
+        +changeStatus(ReadingStatus status) void
+        +getProgressPercentage() double
+    }
+
+    class Media {
+        <<abstract>>
+        -Long id
+        -String title
+        -String author
+        -String genre
+        -String description
+        +getTotalUnits() int*
+        +formatSize() String*
+    }
+
+    class Book {
+        -int quantityPages
+        +getTotalUnits() int
+        +formatSize() String
+    }
+
+    class AudioBook {
+        -int durationSeconds
+        +getTotalUnits() int
+        +formatSize() String
+    }
+
+    class ReadingStatus {
+        <<enumeration>>
+        PLANNED
+        IN_PROGRESS
+        COMPLETED
+        DROPPED
+    }
+
+    class XPCalculator {
+        <<interface>>
+        +calculateXp(int previous, int current) int
+    }
+
+    class BookXPCalculator {
+        +calculateXp(int previous, int current) int
+    }
+
+    class AudioBookXPCalculator {
+        +calculateXp(int previous, int current) int
+    }
+
+    class LibraryService {
+        -XPCalculator bookCalculator
+        -XPCalculator audioBookCalculator
+        +LibraryService()
+        +addMedia(User user, Media media) UserMedia
+        +updateProgress(UserMedia userMedia, int progress) void
+        +rateMedia(UserMedia userMedia, double rating) void
+        +changeStatus(UserMedia userMedia, ReadingStatus status) void
+        +removeMedia(UserMedia userMedia) void
+        -selectXPCalculator(Media media) XPCalculator
+    }
+
+    Media <|-- Book
+    Media <|-- AudioBook
+    XPCalculator <|.. BookXPCalculator
+    XPCalculator <|.. AudioBookXPCalculator
+    User "1" *-- "0..*" UserMedia : possui
+    UserMedia "0..*" --> "1" Media : referencia
+    UserMedia --> ReadingStatus : utiliza
+    LibraryService ..> UserMedia : gerencia
+    LibraryService ..> User : atualiza estante e XP
+    LibraryService --> XPCalculator : utiliza estrategias
+    LibraryService ..> BookXPCalculator : instancia
+    LibraryService ..> AudioBookXPCalculator : instancia

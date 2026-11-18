@@ -43,9 +43,32 @@ O projeto busca aplicar os principais conceitos de Programação Orientada a Obj
 
 ### Diagrama de classes UML
 
-O diagrama apresenta as classes principais, seus relacionamentos e as estratégias de cálculo de XP.
+O diagrama apresenta as classes principais, seus relacionamentos e as estratégias de cálculo de XP. Para facilitar a leitura, a visualização abaixo está dividida em três partes, em formato vetorial.
 
-![Diagrama de classes UML da Estante Virtual](docs/uml/diagrama-de-classes.png)
+[Abrir diagrama completo em SVG](docs/uml/diagrama-de-classes.svg) · [Abrir PNG em alta resolução](docs/uml/diagrama-de-classes.png) · [Código Mermaid](docs/uml/diagrama-de-classes.mmd)
+
+#### Mídias
+
+![Herança entre Media, Book e AudioBook](docs/uml/diagrama-midias.svg)
+
+#### Usuários e acompanhamento
+
+A classe `Media` aparece como referência nesta parte; seus atributos e métodos estão na visualização de mídias acima.
+
+![Usuários, progresso, avaliação e status das mídias](docs/uml/diagrama-acompanhamento.svg)
+
+#### Serviço e cálculo de XP
+
+O `LibraryService` coordena as operações sobre `User` e `UserMedia` e utiliza as estratégias abaixo para calcular XP. Todas as relações entre essas classes estão no diagrama completo.
+
+![LibraryService e as estratégias de cálculo de XP](docs/uml/diagrama-xp.svg)
+
+<details>
+<summary>Visualizar o diagrama completo</summary>
+
+![Diagrama de classes UML completo da Estante Virtual](docs/uml/diagrama-de-classes.svg)
+
+</details>
 
 ### Padrão de projeto — Strategy
 
