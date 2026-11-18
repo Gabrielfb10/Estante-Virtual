@@ -1,0 +1,26 @@
+package estantevirtual.model;
+
+public class AudioBook extends Media{
+    private int durationSeconds;
+
+    public AudioBook(Long id, String title, String author,
+                     String genre, String description, int durationSeconds) {
+        super(id, title, author, genre, description);
+
+        if (durationSeconds <= 0){
+            throw new IllegalArgumentException("A duração deve ser maior do que zero");
+        }
+        this.durationSeconds = durationSeconds;
+
+    }
+    @Override
+    public int getTotalUnits(){
+        return durationSeconds;
+    }
+    @Override
+    public String formatSize(){
+        int hours = durationSeconds / 3600;
+        int minutes = (durationSeconds % 3600) / 60;
+        return hours + "h " + minutes + "min";
+    }
+}
