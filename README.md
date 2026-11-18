@@ -56,6 +56,43 @@ Para o cálculo de XP, será utilizado o padrão **Strategy**, por meio da inter
 
 Essa abordagem permite utilizar diferentes algoritmos de forma polimórfica, mantendo as regras de gamificação separadas das entidades de mídia.
 
+## 📁 Estrutura de pastas
+
+```text
+Estante-Virtual/
+├── src/
+│   ├── main/
+│   │   └── java/
+│   │       └── estantevirtual/
+│   │           ├── EstanteVirtual.java
+│   │           ├── model/
+│   │           ├── service/
+│   │           ├── strategy/
+│   │           └── view/
+│   └── test/
+│       └── java/
+│           └── estantevirtual/
+│               ├── model/
+│               ├── service/
+│               └── strategy/
+├── docs/
+│   └── uml/
+└── README.md
+```
+
+| Pasta | Responsabilidade |
+|---|---|
+| `src/main/java/estantevirtual/model` | Classes de usuários, mídias e acompanhamento de leitura. |
+| `src/main/java/estantevirtual/service` | Coordenação das operações da estante. |
+| `src/main/java/estantevirtual/strategy` | Interface e implementações do cálculo de XP. |
+| `src/main/java/estantevirtual/view` | Janelas e componentes da interface Swing. |
+| `src/test/java/estantevirtual` | Testes organizados conforme os pacotes das classes. |
+| `docs/uml` | Diagramas UML do projeto. |
+
+O arquivo [EstanteVirtual.java](src/main/java/estantevirtual/EstanteVirtual.java) é o ponto de entrada da aplicação. Atualmente, ele declara o pacote `estantevirtual` e o método `main`, ainda sem as operações de inicialização do sistema.
+
+As pastas de pacotes e testes ainda estão vazias. O Git passa a versioná-las quando seus primeiros arquivos forem adicionados.
+
 ## 🚀 Instalação e execução
 
 O projeto está em fase inicial de desenvolvimento.
