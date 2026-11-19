@@ -1,17 +1,17 @@
 package estantevirtual;
 import estantevirtual.model.Media;
-import estantevirtual.model.Book;
-import estantevirtual.model.AudioBook;
+import estantevirtual.service.MediaService;
 
 public class EstanteVirtual {
     public static void main (String[] args) {
+        MediaService mediaService = new MediaService();
         //teste
-        Media book = new Book(
+        Media book = mediaService.createBook(
                 1L, "Dom Casmurro", "Machado de Assis",
                 "Romance", "Livro do clássico do romance", 300
         );
 
-        Media audioBook = new AudioBook(
+        Media audioBook = mediaService.createAudioBook(
                 2L, "Dom Casmurro", "Machado de Assis",
                 "Romance", "Audiolivro do clássico romance", 9000
         );
@@ -30,7 +30,6 @@ public class EstanteVirtual {
         System.out.println(audioBook.getDescription());
         System.out.println(audioBook.formatSize());
         System.out.println(audioBook.getTotalUnits());
-
 
     }
 }

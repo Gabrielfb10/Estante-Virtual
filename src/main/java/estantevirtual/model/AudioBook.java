@@ -7,9 +7,6 @@ public class AudioBook extends Media{
                      String genre, String description, int durationSeconds) {
         super(id, title, author, genre, description);
 
-        if (durationSeconds <= 0){
-            throw new IllegalArgumentException("A duração deve ser maior do que zero");
-        }
         this.durationSeconds = durationSeconds;
 
     }

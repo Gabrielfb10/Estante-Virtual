@@ -9,14 +9,6 @@ public abstract class Media {
 
     protected Media(Long id, String title,String author,String genre,String description){
 
-        if (title == null || title.isBlank()) {
-            throw new IllegalArgumentException("Forneça um título!");
-        }
-
-        if (author == null || author.isBlank()) {
-            throw new IllegalArgumentException("Forneça um autor!");
-        }
-
         this.id = id;
         this.title = title;
         this.author = author;
