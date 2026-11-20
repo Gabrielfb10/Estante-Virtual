@@ -1,10 +1,10 @@
 package estantevirtual.model;
 
-public class AudioBook extends Media{
+public class AudioBookModel extends Media{
     private int durationSeconds;
 
-    public AudioBook(Long id, String title, String author,
-                     String genre, String description, int durationSeconds) {
+    public AudioBookModel(Long id, String title, String author,
+                          String genre, String description, int durationSeconds) {
         super(id, title, author, genre, description);
 
         this.durationSeconds = durationSeconds;

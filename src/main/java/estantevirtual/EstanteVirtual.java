@@ -1,17 +1,16 @@
 package estantevirtual;
-import estantevirtual.model.Media;
 import estantevirtual.service.MediaService;
 
 public class EstanteVirtual {
     public static void main (String[] args) {
         MediaService mediaService = new MediaService();
         //teste
-        Media book = mediaService.createBook(
+        estantevirtual.model.MediaModel book = mediaService.createBook(
                 1L, "Dom Casmurro", "Machado de Assis",
                 "Romance", "Livro do clássico do romance", 300
         );
 
-        Media audioBook = mediaService.createAudioBook(
+        estantevirtual.model.MediaModel audioBook = mediaService.createAudioBook(
                 2L, "Dom Casmurro", "Machado de Assis",
                 "Romance", "Audiolivro do clássico romance", 9000
         );
