@@ -8,7 +8,7 @@ public class UserModel {
     private String name;
     private int level;
     private int xp;
-    private List<UserMedia> shelf;
+    private List<UserMediaModel> shelf;
 
     public UserModel (Long id, String name) {
         this.id = id;
@@ -28,12 +28,12 @@ public class UserModel {
 
     public int getLevel () { return level; }
 
-    public List<UserMedia> getShelf () { return shelf; }
+    public List<UserMediaModel> getShelf () { return shelf; }
 
-    public void addToShelf (UserMedia userMedia) { shelf.add(userMedia); }
+    public void addToShelf (UserMediaModel userMediaModel) { shelf.add(userMediaModel); }
 
     //Verificação deve ser feita no service
-    public void removeFromShelf (UserMedia userMedia) { shelf.remove(userMedia); }
+    public void removeFromShelf (UserMediaModel userMediaModel) { shelf.remove(userMediaModel); }
 
     public Long getId () { return id; }
 

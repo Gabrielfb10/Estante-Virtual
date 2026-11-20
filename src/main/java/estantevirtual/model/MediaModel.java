@@ -1,13 +1,13 @@
 package estantevirtual.model;
 
-public abstract class Media {
+public abstract class MediaModel {
     private Long id;
     private String title;
     private String author;
     private String genre;
     private String description;
 
-    protected Media(Long id, String title,String author,String genre,String description){
+    protected MediaModel(Long id, String title, String author, String genre, String description){
 
         this.id = id;
         this.title = title;
