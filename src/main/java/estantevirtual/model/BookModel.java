@@ -1,6 +1,6 @@
 package estantevirtual.model;
 
-public class BookModel extends Media{
+public class BookModel extends MediaModel{
     private int quantityPages;
 
     public BookModel(Long id, String title, String author,

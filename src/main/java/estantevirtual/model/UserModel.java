@@ -1,4 +1,4 @@
-package main.java.estantevirtual.model;
+package estantevirtual.model;
 
 import java.util.ArrayList;
 import java.util.List;
