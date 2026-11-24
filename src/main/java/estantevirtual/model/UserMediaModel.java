@@ -1,6 +1,5 @@
-package main.java.estantevirtual.model;
-import estantevirtual.model.MediaModel;
-import main.java.estantevirtual.model.enums.ReadingStatusEnum;
+package estantevirtual.model;
+import estantevirtual.model.enums.ReadingStatusEnum;
 
 public class UserMediaModel {
     private Long id;
