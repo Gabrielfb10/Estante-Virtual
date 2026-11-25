@@ -7,7 +7,7 @@ public class UserMediaModel {
     private MediaModel media;
     private int progress;
     private int rewardedProgress;
-    private double rating;
+    private Double rating;
     private ReadingStatusEnum status;
 
     public UserMediaModel (Long id, UserModel user, MediaModel media) {
@@ -17,7 +17,7 @@ public class UserMediaModel {
         this.progress = 0;
         this.rewardedProgress = 0;
         //A nota pertence a [0,5]
-        this.rating = -1.0;
+        this.rating = null;
         this.status = ReadingStatusEnum.PLANNED;
     }
 
@@ -28,15 +28,68 @@ public class UserMediaModel {
     public int getProgress () { return progress; }
 
     public int getRewardedProgress () { return rewardedProgress; }
+    //Agora calcula a porcentagem corretamente
+    public double getProgressPercentage () { return 100.0 * progress/media.getTotalUnits(); }
+    //A verificação principal é feita em progress.
+    public void setProgress (int progress) {
+        int total = media.getTotalUnits();
+        if (progress < 0 || progress > total){
+            throw new IllegalArgumentException("O progresso deve estar entre zero e o total");
+        }
 
-    public double getProgressPercentage () { return (progress/media.getTotalUnits()); }
+        if (progress < this.progress){
+            throw new IllegalArgumentException("O progresso não pode reduzir");
+        }
 
-    public void setProgress (int progress) { this.progress = progress; }
+        if(this.status == ReadingStatusEnum.DROPPED){
+            throw new IllegalArgumentException("Retome o status da obra antes de atualizar o progresso.");
+        }
+        ReadingStatusEnum newStatus = this.status;
 
-    public void setRating (double rating) { this.rating = rating; }
+        if(progress == total){
+            newStatus = ReadingStatusEnum.COMPLETED;
+        } else if (progress > 0){
+            newStatus = ReadingStatusEnum.IN_PROGRESS;
+        }
+
+        this.progress = progress;
+        this.status = newStatus;
+    }
+
+    public void setRating (double rating) {
+        if (!Double.isFinite(rating) || rating < 0 || rating > 5){
+            throw new IllegalArgumentException("A nota deve ser entre 0 e 5");
+        }
+
+        this.rating = rating;
+    }
 
     public void markRewardedProgress () { rewardedProgress = Math.max(rewardedProgress, progress); }
+    //O boolean verifica se a troca é válida e só então permite a alteração de status.
+    public void setStatus (ReadingStatusEnum status) {
+        if (status == null){
+            throw new IllegalArgumentException("Informe um status");
+        }
 
-    public void setStatus (ReadingStatusEnum status) { this.status = status; }
+        if (status == this.status){
+            return;
+        }
+
+        boolean allowed = switch (status) {
+            case PLANNED -> this.status == ReadingStatusEnum.IN_PROGRESS
+                    && this.progress == 0;
+            case IN_PROGRESS -> this.status == ReadingStatusEnum.PLANNED
+                    || this.status == ReadingStatusEnum.DROPPED;
+            case DROPPED -> this.status == ReadingStatusEnum.PLANNED
+                    || this.status == ReadingStatusEnum.IN_PROGRESS;
+            case COMPLETED -> false;
+        };
+
+        if (!allowed){
+            throw new IllegalArgumentException("Mudança inválida!");
+        }
+
+        this.status = status;
+    }
 
 }
