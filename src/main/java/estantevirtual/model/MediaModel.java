@@ -1,5 +1,7 @@
 package estantevirtual.model;
 
+import estantevirtual.strategy.XPCalculator;
+
 public abstract class MediaModel {
     private Long id;
     private String title;
@@ -40,5 +42,6 @@ public abstract class MediaModel {
     public abstract int getTotalUnits();
 
     public abstract String formatSize();
+    public abstract XPCalculator getXpCalculator();
 
 }

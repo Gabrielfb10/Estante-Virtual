@@ -1,6 +1,10 @@
 package estantevirtual.model;
 
+import estantevirtual.strategy.BookXPCalculator;
+import estantevirtual.strategy.XPCalculator;
+
 public class BookModel extends MediaModel{
+    private static final XPCalculator XP_CALCULATOR = new BookXPCalculator();
     private int quantityPages;
 
     public BookModel(Long id, String title, String author,
@@ -16,6 +20,11 @@ public class BookModel extends MediaModel{
     @Override
     public String formatSize(){
         return quantityPages + " páginas";
+    }
+
+    @Override
+    public XPCalculator getXpCalculator() {
+        return XP_CALCULATOR;
     }
 }
 

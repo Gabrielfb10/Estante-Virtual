@@ -1,9 +1,13 @@
 package estantevirtual;
+
+import estantevirtual.model.UserModel;
+import estantevirtual.service.LibraryService;
 import estantevirtual.service.MediaService;
 
 public class EstanteVirtual {
     public static void main (String[] args) {
         MediaService mediaService = new MediaService();
+        LibraryService libraryService = new LibraryService();
         //teste
         estantevirtual.model.MediaModel book = mediaService.createBook(
                 1L, "Dom Casmurro", "Machado de Assis",
@@ -30,5 +34,9 @@ public class EstanteVirtual {
         System.out.println(audioBook.formatSize());
         System.out.println(audioBook.getTotalUnits());
 
+        UserModel reader = new UserModel(1L, "Leitor");
+        libraryService.updateProgress(libraryService.addMedia(reader, book), 10);
+        libraryService.updateProgress(libraryService.addMedia(reader, audioBook), 120);
+        System.out.println("Nível após registrar o progresso: " + reader.getLevel());
     }
 }

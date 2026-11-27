@@ -11,11 +11,18 @@ public class UserMediaModel {
     private ReadingStatusEnum status;
 
     public UserMediaModel (Long id, UserModel user, MediaModel media) {
+        this(id, user, media, 0);
+    }
+
+    public UserMediaModel(Long id, UserModel user, MediaModel media, int rewardedProgress) {
+        if (rewardedProgress < 0) {
+            throw new IllegalArgumentException("O progresso premiado deve ser maior ou igual a zero");
+        }
         this.id = id;
         this.user = user;
         this.media = media;
         this.progress = 0;
-        this.rewardedProgress = 0;
+        this.rewardedProgress = rewardedProgress;
         //A nota pertence a [0,5]
         this.rating = null;
         this.status = ReadingStatusEnum.PLANNED;

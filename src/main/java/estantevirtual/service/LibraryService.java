@@ -1,6 +1,5 @@
 package estantevirtual.service;
 
-import estantevirtual.strategy.XPCalculator;
 import estantevirtual.model.MediaModel;
 import estantevirtual.model.UserMediaModel;
 import estantevirtual.model.UserModel;
@@ -11,8 +10,6 @@ import java.util.Map;
 
 public class LibraryService {
 
-    private XPCalculator bookCalculator;
-    private XPCalculator AudioBookCalculator;
     private long nextUserMediaId = 1L;
 
     private record HistoryKey(Long userId, Long mediaId) {}
@@ -31,7 +28,7 @@ public class LibraryService {
         HistoryKey key = new HistoryKey(user.getId(), media.getId());
         int rewardedProgress = rewardedHistory.getOrDefault(key, 0);
 
-        UserMediaModel userMedia = new UserMediaModel(nextUserMediaId++,user, media);
+        UserMediaModel userMedia = new UserMediaModel(nextUserMediaId++, user, media, rewardedProgress);
         user.addToShelf(userMedia);
         
         return userMedia;
@@ -53,16 +50,36 @@ public class LibraryService {
         user.removeFromShelf(userMedia);
     }
 
+    //Atualiza o progresso, não dando mais xp caso o novo progresso seja menor que o registrado ou igual ao anterior
     public void updateProgress(UserMediaModel userMedia, int progress) {
+        if (userMedia == null){
+            throw new IllegalArgumentException("Informe uma obra para atualizar o progresso");
+        }
+
+        UserModel user = userMedia.getUser();
+
+        if(!user.getShelf().contains(userMedia)){
+            throw new IllegalArgumentException("A obra não está na sua estante!");
+        }
+
+        int rewardedProgress = userMedia.getRewardedProgress();
+
+        if (progress <= rewardedProgress) {
+            userMedia.setProgress(progress);
+            return;
+        }
+
+        int xp = userMedia.getMedia()
+                .getXpCalculator()
+                .calculateXp(rewardedProgress, progress);
+        userMedia.setProgress(progress);
+        user.addXp(xp);
+        userMedia.markRewardedProgress();
     }
 
     public void rateMedia(UserMediaModel userMedia, double rating) {
     }
 
     public void changeStatus(UserMediaModel userMedia, ReadingStatusEnum status) {
-    }
-
-    private XPCalculator selectXPCalculator(MediaModel media) {
-        return null;
     }
 }
