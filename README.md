@@ -35,11 +35,11 @@ O projeto busca aplicar os principais conceitos de Programação Orientada a Obj
 
 ### Modelagem inicial
 
-- **`Media`**: classe abstrata responsável pelas características e comportamentos comuns às mídias.
-- **`Book`**: representa livros e suas características específicas.
-- **`AudioBook`**: representa audiolivros e suas características específicas.
-- **`User`**: representa os usuários e suas informações.
-- **`UserMedia`**: gerencia o relacionamento entre usuários e mídias, incluindo progresso, avaliação e status.
+- **`MediaModel`**: classe abstrata responsável pelas características e comportamentos comuns às mídias.
+- **`BookModel`**: representa livros e suas características específicas.
+- **`AudioBookModel`**: representa audiolivros e suas características específicas.
+- **`UserModel`**: representa os usuários e suas informações.
+- **`UserMediaModel`**: gerencia o relacionamento entre usuários e mídias, incluindo progresso, avaliação e status.
 
 ### Diagrama de classes UML
 
@@ -53,13 +53,13 @@ O diagrama apresenta as classes principais, seus relacionamentos e as estratégi
 
 #### Usuários e acompanhamento
 
-A classe `Media` aparece como referência nesta parte; seus atributos e métodos estão na visualização de mídias acima.
+A classe `MediaModel` aparece como referência nesta parte. Seus atributos e métodos estão na visualização de mídias acima.
 
 ![Usuários, progresso, avaliação e status das mídias](docs/uml/diagrama-acompanhamento.svg)
 
 #### Serviço e cálculo de XP
 
-O `LibraryService` coordena as operações sobre `User` e `UserMedia` e utiliza as estratégias abaixo para calcular XP. Todas as relações entre essas classes estão no diagrama completo.
+O `LibraryService` pede a estratégia de XP à mídia por meio de `getXpCalculator()` e chama `calculateXp()` pela interface `XPCalculator`. `BookModel` fornece a calculadora de livros e `AudioBookModel` fornece a de audiolivros.
 
 ![LibraryService e as estratégias de cálculo de XP](docs/uml/diagrama-xp.svg)
 
@@ -72,12 +72,12 @@ O `LibraryService` coordena as operações sobre `User` e `UserMedia` e utiliza 
 
 ### Padrão de projeto — Strategy
 
-Para o cálculo de XP, será utilizado o padrão **Strategy**, por meio da interface `XPCalculator` e de duas implementações:
+O cálculo de XP usa o padrão **Strategy** por meio da interface `XPCalculator` e de duas implementações.
 
 - **`BookXPCalculator`**: cálculo de XP baseado no progresso de leitura.
 - **`AudioBookXPCalculator`**: cálculo de XP baseado no progresso de escuta.
 
-Essa abordagem permite utilizar diferentes algoritmos de forma polimórfica, mantendo as regras de gamificação separadas das entidades de mídia.
+Cada mídia fornece sua estratégia, e as fórmulas ficam nas implementações de `XPCalculator`.
 
 ## 📁 Estrutura de pastas
 

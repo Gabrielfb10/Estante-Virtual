@@ -1,39 +1,41 @@
 classDiagram
     direction TB
 
-    class User {
+    class UserModel {
         -Long id
         -String name
+        -int level
         -int xp
-        -List~UserMedia~ shelf
+        -List~UserMediaModel~ shelf
         +addXp(int amount) void
         +getLevel() int
-        +getShelf() List~UserMedia~
-        +addToShelf(UserMedia userMedia) void
-        +removeFromShelf(UserMedia userMedia) void
+        +getShelf() List~UserMediaModel~
+        +addToShelf(UserMediaModel userMediaModel) void
+        +removeFromShelf(UserMediaModel userMediaModel) void
     }
 
-    class UserMedia {
+    class UserMediaModel {
         -Long id
-        -User user
-        -Media media
+        -UserModel user
+        -MediaModel media
         -int progress
         -int rewardedProgress
         -Double rating
-        -ReadingStatus status
-        +UserMedia(User user, Media media)
-        +getUser() User
-        +getMedia() Media
+        -ReadingStatusEnum status
+        +UserMediaModel(Long id, UserModel user, MediaModel media)
+        +UserMediaModel(Long id, UserModel user, MediaModel media, int rewardedProgress)
+        +getUser() UserModel
+        +getMedia() MediaModel
         +getProgress() int
         +getRewardedProgress() int
-        +updateProgress(int progress) void
-        +markProgressRewarded() void
+        +setProgress(int progress) void
+        +markRewardedProgress() void
         +setRating(double rating) void
-        +changeStatus(ReadingStatus status) void
+        +setStatus(ReadingStatusEnum status) void
         +getProgressPercentage() double
     }
 
-    class Media {
+    class MediaModel {
         <<abstract>>
         -Long id
         -String title
@@ -42,21 +44,26 @@ classDiagram
         -String description
         +getTotalUnits() int*
         +formatSize() String*
+        +getXpCalculator() XPCalculator*
     }
 
-    class Book {
+    class BookModel {
+        -XPCalculator XP_CALCULATOR$
         -int quantityPages
         +getTotalUnits() int
         +formatSize() String
+        +getXpCalculator() XPCalculator
     }
 
-    class AudioBook {
+    class AudioBookModel {
+        -XPCalculator XP_CALCULATOR$
         -int durationSeconds
         +getTotalUnits() int
         +formatSize() String
+        +getXpCalculator() XPCalculator
     }
 
-    class ReadingStatus {
+    class ReadingStatusEnum {
         <<enumeration>>
         PLANNED
         IN_PROGRESS
@@ -78,26 +85,25 @@ classDiagram
     }
 
     class LibraryService {
-        -XPCalculator bookCalculator
-        -XPCalculator audioBookCalculator
         +LibraryService()
-        +addMedia(User user, Media media) UserMedia
-        +updateProgress(UserMedia userMedia, int progress) void
-        +rateMedia(UserMedia userMedia, double rating) void
-        +changeStatus(UserMedia userMedia, ReadingStatus status) void
-        +removeMedia(UserMedia userMedia) void
-        -selectXPCalculator(Media media) XPCalculator
+        +addMedia(UserModel user, MediaModel media) UserMediaModel
+        +updateProgress(UserMediaModel userMediaModel, int progress) void
+        +rateMedia(UserMediaModel userMediaModel, double rating) void
+        +changeStatus(UserMediaModel userMediaModel, ReadingStatusEnum status) void
+        +removeMedia(UserMediaModel userMediaModel) void
     }
 
-    Media <|-- Book
-    Media <|-- AudioBook
+    MediaModel <|-- BookModel
+    MediaModel <|-- AudioBookModel
     XPCalculator <|.. BookXPCalculator
     XPCalculator <|.. AudioBookXPCalculator
-    User "1" *-- "0..*" UserMedia : possui
-    UserMedia "0..*" --> "1" Media : referencia
-    UserMedia --> ReadingStatus : utiliza
-    LibraryService ..> UserMedia : gerencia
-    LibraryService ..> User : atualiza estante e XP
-    LibraryService --> XPCalculator : utiliza estrategias
-    LibraryService ..> BookXPCalculator : instancia
-    LibraryService ..> AudioBookXPCalculator : instancia
+    UserModel "1" *-- "0..*" UserMediaModel : possui
+    UserMediaModel "0..*" --> "1" MediaModel : referencia
+    UserMediaModel --> ReadingStatusEnum : utiliza
+    LibraryService ..> UserMediaModel : gerencia
+    LibraryService ..> UserModel : atualiza estante e XP
+    LibraryService ..> MediaModel : pede estratégia
+    LibraryService ..> XPCalculator : calcula XP
+    MediaModel ..> XPCalculator : fornece estratégia
+    BookModel ..> BookXPCalculator : fornece
+    AudioBookModel ..> AudioBookXPCalculator : fornece
