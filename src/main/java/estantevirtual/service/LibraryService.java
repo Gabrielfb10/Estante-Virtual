@@ -78,8 +78,38 @@ public class LibraryService {
     }
 
     public void rateMedia(UserMediaModel userMedia, double rating) {
+        if (userMedia == null){
+            throw new IllegalArgumentException("Informe uma obra para avaliar!");
+        }
+
+        UserModel user = userMedia.getUser();
+
+        if (!user.getShelf().contains(userMedia)) {
+            throw new IllegalArgumentException("A obra não está na sua estante!");
+        }
+
+        userMedia.setRating(rating);
     }
 
     public void changeStatus(UserMediaModel userMedia, ReadingStatusEnum status) {
+        if (userMedia == null){
+            throw new IllegalArgumentException("Informe uma obra para alterar o status!");
+        }
+
+        UserModel user = userMedia.getUser();
+
+        if (!user.getShelf().contains(userMedia)) {
+            throw new IllegalArgumentException("A obra não está na sua estante!");
+        }
+
+        if (status == null){
+            throw new IllegalArgumentException("Informe um status!");
+        }
+        if(status == ReadingStatusEnum.COMPLETED){
+            updateProgress(userMedia, userMedia.getMedia().getTotalUnits());
+        } else {
+            userMedia.setStatus(status);
+        }
+
     }
 }
